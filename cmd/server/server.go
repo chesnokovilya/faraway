@@ -17,8 +17,7 @@ type TCPServer struct {
 	connections     int
 	listener        net.Listener
 	responseManager *response.ResponseManager
-
-	done chan struct{}
+	done            chan struct{}
 }
 
 func NewServer(address string) (*TCPServer, error) {
@@ -26,7 +25,6 @@ func NewServer(address string) (*TCPServer, error) {
 	rootDir := filepath.Dir(filepath.Dir(filename))
 	log.Println("rootDit=" + rootDir)
 	responsePath := filepath.Join(rootDir, "../", "lorem-ipsum.txt")
-
 	rm, err := response.NewResponseManager(responsePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load responses: %w", err)
@@ -45,9 +43,7 @@ func (s *TCPServer) Start() error {
 	if err != nil {
 		return err
 	}
-
 	log.Printf("Server started on %s", s.address)
-
 	go s.acceptConnections()
 	return nil
 }
@@ -68,10 +64,8 @@ func (s *TCPServer) acceptConnections() {
 				log.Print(err)
 				continue
 			}
-
 			s.connections++
 			go handleConnection(conn, s.difficulty, s.responseManager)
-
 		}
 	}
 }

@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"math/rand"
 	"os"
-	"time"
 )
 
 type ResponseManager struct {
@@ -17,24 +16,20 @@ func NewResponseManager(filePath string) (*ResponseManager, error) {
 		return nil, err
 	}
 	defer file.Close()
-
 	var responses []string
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		responses = append(responses, scanner.Text())
 	}
-
 	if err := scanner.Err(); err != nil {
 		return nil, err
 	}
-
-	rand.Seed(time.Now().UnixNano())
 	return &ResponseManager{responses: responses}, nil
 }
 
 func (rm *ResponseManager) GetRandomResponse() string {
 	if len(rm.responses) == 0 {
-		return "Welcome to the service!"
+		return ""
 	}
 	return rm.responses[rand.Intn(len(rm.responses))]
 }
