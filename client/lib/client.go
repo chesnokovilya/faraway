@@ -120,7 +120,7 @@ func (c *PoWClient) readServerResponse(conn net.Conn) error {
 
 	switch {
 	case strings.HasPrefix(msg, pow.WowPrefix):
-		fmt.Println("WOW", strings.TrimPrefix(msg, pow.WowPrefix))
+		fmt.Println(strings.TrimPrefix(msg, pow.WowPrefix))
 	default:
 		fmt.Println("Unknown response:", msg)
 	}

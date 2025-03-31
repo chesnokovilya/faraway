@@ -1,0 +1,25 @@
+FROM --platform=linux/arm64 mirror.gcr.io/golang AS builder
+
+WORKDIR /app
+
+# Copy go mod and sum files
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy source
+COPY . .
+
+# Build the application
+RUN go build -o ./c ./client/main.go
+
+# Final stage
+FROM mirror.gcr.io/golang
+
+WORKDIR /app
+
+# Copy binary from builder
+COPY --from=builder /app/c .
+
+ENTRYPOINT ["./c"]
+CMD ["-server", "server:8080"]
+
