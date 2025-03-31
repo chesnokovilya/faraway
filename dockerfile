@@ -1,5 +1,5 @@
 # Build stage
-FROM --platform=linux/arm64 mirror.gcr.io/golang AS builder
+FROM mirror.gcr.io/golang AS builder
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ COPY . .
 RUN  go build -o server ./main.go
 
 # Final stage
-FROM --platform=linux/arm64 mirror.gcr.io/golang
+FROM mirror.gcr.io/golang
 
 WORKDIR /app
 
